@@ -1,14 +1,11 @@
 package graph.immutable
 
-class Graph (private val nodes:Set[Any], private val links:Map[Any, Any]){
-  if (!links.keys.forall(key => nodes.contains(key))) {
-    throw new IllegalArgumentException
-  }
-  if (!links.values.forall(value => nodes.contains(value))) {
+class Graph[T] (private val nodes:Set[T], private val edges:Set[(T, T)]){
+  if (!edges.forall{ case (source, target) => nodes.contains(source) && nodes.contains(target)}) {
     throw new IllegalArgumentException
   }
   def this(){
-    this(Set[Any](), Map[Any, Any]())
+    this(Set[T](), Set[(T, T)]())
   }
 
   def isEmpty ():Boolean =  {
@@ -18,6 +15,8 @@ class Graph (private val nodes:Set[Any], private val links:Map[Any, Any]){
   def size ():Int = {
     nodes.size
   }
+
+  
 }
 
 
