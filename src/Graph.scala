@@ -1,14 +1,16 @@
 package graph.immutable
 
-class Graph[T] (val nodes:Set[T], edges:Set[(T, T)]){
-  if (!edges.forall{ case (source, target) => nodes.contains(source) && nodes.contains(target)}) {
+import collection.immutable.HashMap
+
+class Graph[T] (val nodes:List[T], edgeList:List[(T, T)]){
+  if (!edgeList.forall{ case (source, target) => nodes.contains(source) && nodes.contains(target)}) {
     throw new IllegalArgumentException
   }
-  edges.foreach()
+  val edges = HashMap[T, List[T]]() ++ ( nodes.map({node => ( node, (List[T]() ++ edgeList.filter{ case (source, target) => source == node} ))}) )
   
 
   def this(){
-    this(Set[T](), Set[(T, T)]())
+    this(List[T](), List[(T, T)]())
   }
 
   def isEmpty ():Boolean =  {
@@ -23,8 +25,10 @@ class Graph[T] (val nodes:Set[T], edges:Set[(T, T)]){
     nodes.contains(node)
   }
 
-  def contains (node:(T,T)):Boolean = {
-    false
+  def contains (edge:(T, T)):Boolean = {
+    edge match {
+      case (source, target) => edges.get(source).get.contains(edge)
+    }
   }
 
   
