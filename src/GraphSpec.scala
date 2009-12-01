@@ -37,7 +37,8 @@ class GraphSpec extends Spec with ShouldMatchers{
               nonEmptyGraph.contains(4) should be (false)
             }
             it("should have a field representing edges"){
-              nonEmptyGraph should have ('edges (Map(1 -> List[(Int,Int)](), 2 -> List[(Int,Int)](), 3 -> List[(Int,Int)]() )))
+              nonEmptyGraph should have (
+                'edges (Map(1 -> List[(Int,Int)](), 2 -> List[(Int,Int)](), 3 -> List[(Int,Int)]() )))
             }
             it("should have no adjacent nodes"){
               nonEmptyGraph.adjacent(1) should be (List[Int]())
