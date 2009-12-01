@@ -57,8 +57,20 @@ class GraphSpec extends Spec with ShouldMatchers{
               graphWithEdges.contains((1, 3)) should be (false)
             }
             it("should have adjacent edges"){
-              graphWithEdges.adjacent(1)
+              graphWithEdges.adjacent(1) should be (List(2))
+              graphWithEdges.adjacent(2) should be (List(3))
             }
+            it("should have nodes out degrees"){
+              graphWithEdges.outDegree(1) should be (1)
+              graphWithEdges.outDegree(2) should be (1)
+              graphWithEdges.outDegree(3) should be (0)
+            }
+            it("should have nodes in degrees"){
+              graphWithEdges.inDegree(1) should be (0)
+              graphWithEdges.inDegree(2) should be (1)
+              graphWithEdges.inDegree(3) should be (1)
+            }
+
           }
           describe("when initialized"){
             it("should raise an exception if the source or target of the links are not members of the graph"){

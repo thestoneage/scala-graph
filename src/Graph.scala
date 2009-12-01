@@ -38,6 +38,14 @@ class Graph[T] (val nodes:List[T], edgeList:List[(T, T)]){
   def adjacent(node:T):List[T] = {
     edges(node)
   }
+
+  def inDegree(node:T):Int = {
+    edges.values.foldLeft(0){(x, lst) => x + (lst.filter{tgt => tgt == node}).size}
+  }
+
+  def outDegree(node:T):Int = {
+    edges(node).size
+  }
 }
 
 
