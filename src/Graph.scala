@@ -4,9 +4,10 @@ import collection.immutable.HashMap
 
 class Graph[T] (val nodes:List[T], edgeList:List[(T, T)]){
   if (!edgeList.forall{ case (source, target) => nodes.contains(source) && nodes.contains(target)}) {
-    throw new IllegalArgumentException
+    throw new IllegalArgumentException("The Source/Target Nodes of an edge have to be graph members.")
   }
-  val edges = HashMap[T, List[T]]() ++ ( nodes.map({node => ( node, (List[T]() ++ edgeList.filter{ case (source, target) => source == node} ))}) )
+  val pairs = nodes.map{ node => (node,  edgeList.filter{ case (source, target) => source == node }.map{ case (src, tgt) => tgt} ) } 
+  val edges = HashMap[T, List[(T)]]() ++ pairs
   
 
   def this(){
@@ -26,12 +27,13 @@ class Graph[T] (val nodes:List[T], edgeList:List[(T, T)]){
   }
 
   def contains (edge:(T, T)):Boolean = {
-    edge match {
-      case (source, target) => edges.get(source).get.contains(edge)
-    }
+    val (source, target) = edge
+    edges.get(source).get.contains(target)
   }
 
-  
+  def adjacent(node:T):List[T] = {
+    edges.get(node).get
+  }
 }
 
 

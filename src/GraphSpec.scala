@@ -1,7 +1,7 @@
-import collection.immutable.ListSet
 import graph.immutable.Graph
 import org.scalatest.Spec
 import org.scalatest.matchers.ShouldMatchers
+import scala.List
 
 class GraphSpec extends Spec with ShouldMatchers{
         describe("A Graph") {
@@ -39,18 +39,24 @@ class GraphSpec extends Spec with ShouldMatchers{
             it("should have a field representing edges"){
               nonEmptyGraph should have ('edges (Map(1 -> List[(Int,Int)](), 2 -> List[(Int,Int)](), 3 -> List[(Int,Int)]() )))
             }
+            it("should have no adjacent nodes"){
+              nonEmptyGraph.adjacent(1) should be (List[Int]())
+            }
           }
           describe("when constructed with edges"){
             val graphWithEdges = new Graph(List(1,2,3), List((1,2),(2,3)))
             it("should have a field representing edges"){
-              graphWithEdges should have ('edges (Map(1 -> List((1,2)), 2 -> List((2,3)), 3 -> List[(Int, Int)]())))
+              graphWithEdges should have ('edges (Map(1 -> List((2)), 2 -> List((3)), 3 -> List[( Int)]())))
             }
             it("should contain the edges with which it was constructed"){
-              graphWithEdges.contains((1,2)) should be (true)
-              graphWithEdges.contains((2,3)) should be (true)
+              graphWithEdges.contains((1, 2)) should be (true)
+              graphWithEdges.contains((2, 3)) should be (true)
             }
             it("should contain only the edges with which it was constructed") {
-              graphWithEdges.contains((1,3)) should be (false)
+              graphWithEdges.contains((1, 3)) should be (false)
+            }
+            it("should have adjacent edges"){
+              graphWithEdges.adjacent(1)
             }
           }
           describe("when initialized"){
